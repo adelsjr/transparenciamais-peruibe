@@ -9,19 +9,19 @@ st.set_page_config(page_title="Transparência Mais Peruíbe", layout="wide", pag
 
 # --- CONTEÚDO PRINCIPAL DO DASHBOARD ---
 st.title("Transparência Mais Peruíbe")
-
+st.warning("Projeto ainda em construção...", icon="🚧")
 # Frase de missão
 st.markdown("""
-O objetivo deste portal independente é levar mais transparência ao orçamento da cidade de Peruíbe, para que seus cidadãos possam entender, e **fiscalizar** e cobrar o poder público.
+O objetivo deste **portal independente** é levar mais transparência ao orçamento da cidade de Peruíbe. Para que seus cidadãos possam **entender**, **fiscalizar** e **cobrar** o poder público.
 """)
 
 # Aviso/Disclaimer em caixa de cor
-st.info("Esse portal cruza os dados da LOA (Lei Orçamentária Anual) com as despesas publicadas no Portal da Transparência da cidade.")
+st.info("Esse portal cruza os dados da [LOA (Lei Orçamentária Anual)](http://leismunicipa.is/0yb2x) com as despesas publicadas no Portal da Transparência da cidade.")
 
 st.markdown("---")
 
 # Link para as explicações no menu lateral
-st.markdown("Saiba como ler estas informações no menu lateral.")
+st.markdown("Saiba como ler estas informações clicando no menu lateral")
 
 # --- FUNÇÃO PARA COLORIR A TABELA ---
 def color_estouro_percent(val):
@@ -118,6 +118,7 @@ if not df_executado.empty and not df_loa_orgaos.empty and not df_mapeamento.empt
 
     # --- Visualização: Tabela e Detalhamento ---
     st.subheader("Tabela de Detalhes do Orçamento")
+    st.info("A tabela abaixo apresenta a comparação dos valores e o percentual de **estouro** no orçado com o já executado.")
     df_styled = df_comparacao.copy()
     styled_table = df_styled.style.applymap(color_estouro_percent, subset=pd.IndexSlice[:, ['Estouro %']])
     styled_table = styled_table.format({
@@ -125,6 +126,9 @@ if not df_executado.empty and not df_loa_orgaos.empty and not df_mapeamento.empt
     })
     st.dataframe(styled_table, use_container_width=True, hide_index=True)
     st.divider()
+
+    st.subheader("Detalhamento das despesas por Órgão Orçamentário")
+    st.info("A tabela abaixo apresenta um detalhamento das despesas de acordo com o Órgão selecionado, para uma visão mais detalhada de quais despesas estão relacionadas.")
     orgaos_unicos = df_comparacao['Órgão'].unique()
     orgao_selecionado = st.selectbox("Selecione um órgão para ver as despesas detalhadas:", orgaos_unicos)
     if orgao_selecionado:
